@@ -11,9 +11,9 @@ public interface UserRepository {
 
     User getUser(long id);
 
-    int createUser(String name, String industry, String residency, String login, String password);
+    int createUser(User user);
 
-    void updateUser(long id, String name, String industry, String residency, String login, String password);
+    void updateUser(User user);
 
     void deleteUser(long id);
 }

@@ -3,54 +3,52 @@ package com.cot.bankingapprest.controller;
 import com.cot.bankingapprest.model.User;
 import com.cot.bankingapprest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/user")
 public class UserController {
 
     private UserRepository userRepository;
 
     @Autowired
     public UserController(UserRepository userRepository) {
+
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/getUsers")
-    public String getAllUsers(ModelMap map) {
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> list = userRepository.getAllUsers();
-        map.addAttribute("list", list);
-//        map.addAttribute("someUser", user.toString() );
-        return "resultUser";
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/getUsers/{id}")
-    public String getUser(@PathVariable long id, ModelMap map) {
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable long id) {
         User user = userRepository.getUser(id);
-        map.addAttribute("list", user);
-//        map.addAttribute("list", user.toString() );
-        return "resultUser";
-    }
-    @PostMapping("/createUsers")
-    public String createUser(@RequestParam String name, String industry, String residency, String login, String password) {
-        if (userRepository.createUser(name, industry, residency, login,password) == 1) {
-            return "successfully";
-        } else {
-            return "unsuccessfully";
-        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PutMapping("/updateUsers")
-    public void updateUser(@RequestParam long id, String name, String industry, String residency, String login, String password) {
-        userRepository.updateUser(id, name, industry, residency, login,password);
+    @PostMapping
+    public ResponseEntity createUser(@RequestBody User user) {
+        userRepository.createUser(user);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/deleteUsers/{id}")
-    public void deleteUser(@PathVariable long id) {
+    @PutMapping
+    public ResponseEntity updateUser(@RequestBody User user) {
+        userRepository.updateUser(user);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUser(@PathVariable long id) {
         userRepository.deleteUser(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 

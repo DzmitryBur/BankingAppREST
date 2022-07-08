@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 
-    long id;
-    String name;
-    String industry;
-    String residency;
-    String login;
-    String password;
+    private long id;
+    private String name;
+    private String industry;
+    private String residency;
+    private String login;
+    private String password;
 
     @Override
     public String toString() {
