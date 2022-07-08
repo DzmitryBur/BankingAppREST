@@ -3,13 +3,14 @@ package com.cot.bankingapprest.controller;
 import com.cot.bankingapprest.model.Bank;
 import com.cot.bankingapprest.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/bank")
 public class BankController {
 
     private BankRepository bankRepository;
@@ -20,38 +21,34 @@ public class BankController {
     }
 
 
-    @GetMapping("/getBanks")
-    public String getAllBanks(ModelMap map) {
+    @GetMapping
+    public ResponseEntity<List<Bank>> getAllBanks() {
         List<Bank> list = bankRepository.getAllBanks();
-        map.addAttribute("list", list);
-//        map.addAttribute("someBank", bank.toString() );
-        return "resultBank";
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/getBanks/{id}")
-    public String getBank(@PathVariable long id, ModelMap map) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Bank> getBank(@PathVariable long id) {
         Bank bank = bankRepository.getBank(id);
-        map.addAttribute("list", bank);
-//        map.addAttribute("someBank", bank.toString() );
-        return "resultBank";
-    }
-    @PostMapping("/createBanks")
-    public String createBank(@RequestParam String name, String swift) {
-        if (bankRepository.createBank(name, swift) == 1) {
-            return "successfully";
-        } else {
-            return "unsuccessfully";
-        }
+        return new ResponseEntity<>(bank, HttpStatus.OK);
     }
 
-    @PutMapping("/updateBanks")
-    public void updateBank(@RequestParam long id, String name, String swift) {
-        bankRepository.updateBank(id, name, swift);
+    @PostMapping
+    public ResponseEntity createUser(@RequestBody Bank bank) {
+        bankRepository.createBank(bank);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/deleteBanks/{id}")
-    public void deleteBank(@PathVariable long id) {
+    @PutMapping
+    public ResponseEntity updateBank(@RequestBody Bank bank) {
+        bankRepository.updateBank(bank);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteBank(@PathVariable long id) {
         bankRepository.deleteBank(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 

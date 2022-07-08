@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bank {
 
-    long id;
-    String name;
-    String swift;
+    private long id;
+    private String name;
+    private String swift;
 
     @Override
     public String toString() {

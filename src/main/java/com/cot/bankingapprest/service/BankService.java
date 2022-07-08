@@ -33,15 +33,14 @@ public class BankService implements BankRepository {
     }
 
     @Override
-    public int createBank(String name, String swift) {
-        return jdbcTemplate.update("INSERT INTO banks (id, name, swift) VALUES (DEFAULT,?,?)", name, swift);
-
+    public int createBank(Bank bank) {
+        return jdbcTemplate.update("INSERT INTO banks (id, name, swift) VALUES (DEFAULT,?,?)", bank.getName(), bank.getSwift());
     }
 
     @Override
-    public void updateBank(long id, String name, String swift) {
+    public void updateBank(Bank bank) {
+        jdbcTemplate.update("UPDATE banks SET name = ?, swift =? WHERE id = ?", bank.getName(), bank.getSwift(), bank.getId());
     }
-
 
     @Override
     public void deleteBank(long id) {

@@ -11,9 +11,9 @@ public interface BankRepository {
 
     Bank getBank(long id);
 
-    int createBank(String name, String swift);
+    int createBank(Bank bank);
 
-    void updateBank(long id, String name, String swift);
+    void updateBank(Bank bank);
 
     void deleteBank(long id);
 
