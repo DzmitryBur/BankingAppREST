@@ -7,14 +7,13 @@ import java.util.List;
 
 @Repository
 public interface RoleRepository {
-
     List<Role> getAllRoles();
 
     Role getRole(long id);
 
-    int createRole(String role);
+    int createRole(Role role);
 
-    void updateRole(long id, String role);
+    void updateRole(Role role);
 
     void deleteRole(long id);
 

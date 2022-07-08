@@ -1,5 +1,6 @@
 package com.cot.bankingapprest.service;
 
+
 import com.cot.bankingapprest.mapper.RoleMapper;
 import com.cot.bankingapprest.model.Role;
 import com.cot.bankingapprest.repository.RoleRepository;
@@ -32,15 +33,14 @@ public class RoleService implements RoleRepository {
     }
 
     @Override
-    public int createRole(String role) {
-        return jdbcTemplate.update("INSERT INTO roles (id, role) VALUES (DEFAULT,?)", role);
-
+    public int createRole(Role role) {
+        return jdbcTemplate.update("INSERT INTO roles (id, role) VALUES (DEFAULT,?)", role.getRole());
     }
 
     @Override
-    public void updateRole(long id, String role) {
+    public void updateRole(Role role) {
+        jdbcTemplate.update("UPDATE roles SET role = ? WHERE id = ?", role.getRole(), role.getId());
     }
-
 
     @Override
     public void deleteRole(long id) {

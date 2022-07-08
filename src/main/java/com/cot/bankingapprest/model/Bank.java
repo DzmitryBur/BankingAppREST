@@ -1,6 +1,5 @@
 package com.cot.bankingapprest.model;
 
-
 import org.springframework.stereotype.Component;
 
 @Component

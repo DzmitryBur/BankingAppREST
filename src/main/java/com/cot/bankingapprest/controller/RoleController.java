@@ -1,8 +1,11 @@
 package com.cot.bankingapprest.controller;
 
+import com.cot.bankingapprest.model.Bank;
 import com.cot.bankingapprest.model.Role;
 import com.cot.bankingapprest.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/role")
 public class RoleController {
 
     private RoleRepository roleRepository;
@@ -20,38 +24,34 @@ public class RoleController {
     }
 
 
-    @GetMapping("/getRoles")
-    public String getAllRoles(ModelMap map) {
+    @GetMapping
+    public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> list = roleRepository.getAllRoles();
-        map.addAttribute("list", list);
-//        map.addAttribute("someRole", role.toString() );
-        return "resultRole";
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/getRoles/{id}")
-    public String getRole(@PathVariable long id, ModelMap map) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Role> getRole(@PathVariable long id) {
         Role role = roleRepository.getRole(id);
-        map.addAttribute("list", role);
-//        map.addAttribute("someBank", bank.toString() );
-        return "resultRole";
-    }
-    @PostMapping("/createRoles")
-    public String createRole(@RequestParam String role) {
-        if (roleRepository.createRole(role) == 1) {
-            return "successfully";
-        } else {
-            return "unsuccessfully";
-        }
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
 
-    @PutMapping("/updateRoles")
-    public void updateRole(@RequestParam long id, String role) {
-        roleRepository.updateRole(id, role);
+    @PostMapping
+    public ResponseEntity createRole(@RequestBody Role role) {
+        roleRepository.createRole(role);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/deleteRoles/{id}")
-    public void deleteRole(@PathVariable long id) {
+    @PutMapping
+    public ResponseEntity updateRole(@RequestBody Role role) {
+        roleRepository.updateRole(role);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteRole(@PathVariable long id) {
         roleRepository.deleteRole(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 
