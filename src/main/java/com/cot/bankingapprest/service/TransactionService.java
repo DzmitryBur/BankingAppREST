@@ -39,7 +39,7 @@ public class TransactionService implements TransactionRepository {
 
     @Override
     public void updateTransaction(Transaction transaction) {
-        jdbcTemplate.update("UPDATE transactions SET date = ?, amount =?, id_accounts =? WHERE id = ?", transaction.getAmount(), transaction.getDate(), transaction.getId_accounts(), transaction.getId());
+        jdbcTemplate.update("UPDATE transactions SET date = ?, amount =?, id_accounts =? WHERE id = ?", transaction.getDate(),transaction.getAmount(), transaction.getId_accounts(), transaction.getId());
     }
 
     @Override

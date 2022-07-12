@@ -37,6 +37,7 @@ public class UserService implements UserRepository {
         return jdbcTemplate.update("INSERT INTO users(id, name, industry, residency, login, password) VALUES (DEFAULT,?,?,?,?,?)", user.getName(), user.getIndustry(), user.getResidency(), user.getLogin(), user.getPassword());
     }
 
+
     @Override
     public void updateUser(User user) {
         jdbcTemplate.update("UPDATE users SET name = ?, industry =?, residency =?, login =?, password =?  WHERE id = ?", user.getName(), user.getIndustry(), user.getResidency(), user.getLogin(), user.getPassword(), user.getId());
